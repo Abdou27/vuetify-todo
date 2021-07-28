@@ -17,6 +17,7 @@ export default new Vuex.Store({
             show: false,
             text: ""
         },
+        snackbars: [],
         sorting: false
     },
     mutations: {
@@ -43,19 +44,7 @@ export default new Vuex.Store({
             state.tasks = state.tasks.filter((task) => task.id !== id);
         },
         showSnackbarWithText(state, text) {
-            let timeout = 0;
-            if (state.snackbar.show) {
-                state.snackbar.show = false;
-                timeout = 300;
-            }
-            setTimeout(() => {
-                state.snackbar.text = text;
-                state.snackbar.show = true;
-            }, timeout);
-        },
-        hideSnackbar(state) {
-            state.snackbar.show = false;
-            state.snackbar.text = "";
+            state.snackbars.push(text);
         },
         toggleSorting(state) {
             state.sorting = !state.sorting;

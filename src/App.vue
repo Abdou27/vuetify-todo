@@ -32,7 +32,7 @@
       app
       dark
       prominent
-      height="170"
+      :height="appBarHeight"
       color="primary"
       src="mountains-1412683.svg"
     >
@@ -50,10 +50,15 @@
           <search />
         </v-row>
         <v-row>
-          <v-toolbar-title class="ms-16">{{ $store.state.appTitle }}</v-toolbar-title>
+          <v-toolbar-title class="ms-16">{{
+            $store.state.appTitle
+          }}</v-toolbar-title>
         </v-row>
         <v-row>
           <live-date-time />
+        </v-row>
+        <v-row v-if="$route.name == 'Todo'">
+          <field-add-task />
         </v-row>
       </v-container>
     </v-app-bar>
@@ -77,9 +82,21 @@ export default {
     right: null,
   }),
   mounted() {
-    this.$store.dispatch('getTasks');
+    this.$store.dispatch("getTasks");
+  },
+  computed: {
+    appBarHeight() {
+      let height = 170;
+      switch (this.$route.name) {
+        case 'Todo':
+          height = 200;
+          break;
+      }
+      return height;
+    },
   },
   components: {
+    "field-add-task": require("@/components/Todo/FieldAddTask.vue").default,
     snackbar: require("@/components/Shared/Snackbar.vue").default,
     "live-date-time": require("@/components/Tools/LiveDate.vue").default,
     search: require("@/components/Tools/Search.vue").default,
